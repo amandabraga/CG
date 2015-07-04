@@ -2,6 +2,8 @@ $(function() {
 
 	var width = $('#originalCanvas').width();
 	var height = $('#originalCanvas').height();
+	var imageWidth = 0;
+	var imageHeight = 0;
 
 	$('#image').change(function(e) {
 		var file = e.target.files[0],
@@ -23,6 +25,8 @@ $(function() {
 
 		$img.load(function() {
 			context.drawImage(this, 0, 0);
+			imageWidth = this.width;
+			imageHeight = this.height;
 		});
 	}
 
@@ -70,13 +74,20 @@ $(function() {
 		return 4*((width*row)+column);
 	}
 
+	function checkLimits(number){
+		if(number > 255){
+			return 255;
+		}
+		else if(number < 0){
+			return 0;
+		}
+		else return number;
+	}
+
 	function convolute(weights){
 
 			var initial_canvas = $('#originalCanvas')[0].getContext('2d');
 			var result_canvas = $('#finalCanvas')[0].getContext('2d');
-			
-			var width = $('#originalCanvas').width();
-			var height = $('#originalCanvas').height();
 
 			result_canvas.drawImage($('#originalCanvas')[0],0,0,width, height);
 				
@@ -85,14 +96,15 @@ $(function() {
 
 			var normalizer = 0;
 			for(var i=0; i<weights.length; i++) 
-				normalizer += weights[i];	
-			
+				normalizer += weights[i];
+			if(normalizer == 0) normalizer = 1;
+
 		 	var dimension = Math.sqrt(weights.length);
 
 		 	var half = Math.floor(dimension/2);
 
-		 	for(var i = 0; i < height; i++){
-		 		for(var j = 0; j < width; j++){
+		 	for(var i = 0; i < imageHeight; i++){
+		 		for(var j = 0; j < imageWidth; j++){
 		 			var r=0, g=0, b=0, a=0;
 		 			var offset=0;
 		 			var pos = realPosition(i, j, width);
@@ -100,7 +112,7 @@ $(function() {
 		 			var border = false;
 		 			for(var k = i-half; k <= i+half; k++){
 		 				for(var l = j-half; l <= j+half; l++){
-		 					if(k >= 0 && l >= 0 && k < height && l < width){
+		 					if(k >= 0 && l >= 0 && k < imageHeight && l < imageWidth){
 		 						neightboor = realPosition(k,l,width);
 		 						r  += initialImageData.data[neightboor]*weights[offset];
 								g  += initialImageData.data[neightboor+1]*weights[offset];
@@ -121,10 +133,10 @@ $(function() {
 						a = initialImageData.data[pos+3];
 		 			}
 		 			else{
-		 				finalImageData.data[pos] = Math.floor(r/normalizer);
-						finalImageData.data[pos+1] = Math.floor(g/normalizer);
-				  		finalImageData.data[pos+2] = Math.floor(b/normalizer);
-				  		finalImageData.data[pos+3] = Math.floor(a/normalizer);
+		 				finalImageData.data[pos] = checkLimits(Math.floor(r/normalizer));
+						finalImageData.data[pos+1] = checkLimits(Math.floor(g/normalizer));
+				  		finalImageData.data[pos+2] = checkLimits(Math.floor(b/normalizer));
+				  		finalImageData.data[pos+3] = 255;
 		 			}
 		 			
 		 		}
@@ -136,7 +148,6 @@ $(function() {
 	
 	$('#blur_filter').on('click',function(e){
 		var radius = $("#blur_box_radius").val();
-		console.log(radius);
 		if(radius%2 == 0){
 			console.log("Radius par. Aumentando de uma unidade...");
 			radius++;
@@ -149,6 +160,11 @@ $(function() {
 
 	$('#edge_detection_filter').on('click',function(e){
 		smoothing = [-1,-1,-1,-1,9,-1,-1,-1,-1];
+		convolute(smoothing);
+	});
+
+	$('#laplacian_filter').on('click',function(e){
+		smoothing = [-1,-1,-1,-1,8,-1,-1,-1,-1];
 		convolute(smoothing);
 	});
 
