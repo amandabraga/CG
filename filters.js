@@ -135,8 +135,15 @@ $(function() {
 	}
 	
 	$('#blur_filter').on('click',function(e){
-		smoothing = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-		//smoothing = [1,1,1,1,1,1,1,1,1];
+		var radius = $("#blur_box_radius").val();
+		console.log(radius);
+		if(radius%2 == 0){
+			console.log("Radius par. Aumentando de uma unidade...");
+			radius++;
+		}
+		var smoothing = [];
+		for(var i = 0; i < radius*radius; i++)
+			smoothing.push(1);
 		convolute(smoothing);
 	});
 
@@ -145,7 +152,6 @@ $(function() {
 		convolute(smoothing);
 	});
 
-
 	$('#invert_colors_filter').on('click',function(e){
 		invertColors();
 	});
@@ -153,6 +159,5 @@ $(function() {
 	$('#black_and_white_filter').on('click',function(e){
 		blackAndWhite();
 	});
-
 
 });
