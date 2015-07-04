@@ -42,11 +42,12 @@ $(function() {
 		  data[i + 1] = 255 - data[i + 1];
 		  data[i + 2] = 255 - data[i + 2];
 		}
+
 	    result_canvas.putImageData(imageData, 0, 0); 
 
 	}
 
-	function convolute(weights){
+/*	function convolute(weights){
 
 		var initial_canvas = $('#originalCanvas')[0].getContext('2d');
 		var result_canvas = $('#finalCanvas')[0].getContext('2d');
@@ -61,7 +62,7 @@ $(function() {
 
 		var normalizerRay = 0;
 		for(var i=0; i<weights.length; i++) 
-				normalizerRay += weights[i];	
+			normalizerRay += weights[i];	
 
 	 	var dimension = Math.sqrt(weights.length);
 
@@ -102,11 +103,79 @@ $(function() {
 	    result_canvas.putImageData(finalImageData, 0, 0);
 
 	}
+*/
 
+	function realPosition(row, column, width){
+		return 4*((width*row)+column);
+	}
+
+	function convolute(weights){
+
+			var initial_canvas = $('#originalCanvas')[0].getContext('2d');
+			var result_canvas = $('#finalCanvas')[0].getContext('2d');
+			
+			var width = $('#originalCanvas').width();
+			var height = $('#originalCanvas').height();
+
+			result_canvas.drawImage($('#originalCanvas')[0],0,0,width, height);
+				
+			var initialImageData = initial_canvas.getImageData(0,0,width,height);
+			var finalImageData = result_canvas.getImageData(0,0,width,height);
+
+			var normalizer = 0;
+			for(var i=0; i<weights.length; i++) 
+				normalizer += weights[i];	
+			
+		 	var dimension = Math.sqrt(weights.length);
+
+		 	var half = Math.floor(dimension/2);
+
+		 	for(var i = 0; i < height; i++){
+		 		for(var j = 0; j < width; j++){
+		 			var r=0, g=0, b=0, a=0;
+		 			var offset=0;
+		 			var pos = realPosition(i, j, width);
+		 			var neightboor = 0;
+		 			var border = false;
+		 			for(var k = i-half; k <= i+half; k++){
+		 				for(var l = j-half; l <= j+half; l++){
+		 					if(k >= 0 && l >= 0 && k < height && l < width){
+		 						neightboor = realPosition(k,l,width);
+		 						r  += initialImageData.data[neightboor]*weights[offset];
+								g  += initialImageData.data[neightboor+1]*weights[offset];
+								b  += initialImageData.data[neightboor+2]*weights[offset];
+								a  += initialImageData.data[neightboor+3]*weights[offset];
+								offset++;
+		 					}else {
+								border = true;
+								break;
+							}
+							if(border) break;
+		 				}
+		 			}
+		 			if(border){
+		 				r = initialImageData.data[pos];
+						g = initialImageData.data[pos+1];
+						b = initialImageData.data[pos+2];
+						a = initialImageData.data[pos+3];
+		 			}
+		 			else{
+		 				finalImageData.data[pos] = Math.floor(r/normalizer);
+						finalImageData.data[pos+1] = Math.floor(g/normalizer);
+				  		finalImageData.data[pos+2] = Math.floor(b/normalizer);
+				  		finalImageData.data[pos+3] = Math.floor(a/normalizer);
+		 			}
+		 			
+		 		}
+		 	}
+
+		    result_canvas.putImageData(finalImageData, 0, 0);
+
+	}
 
 	$('#blur_filter').on('click',function(e){
-		smoothing = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-		//smoothing = [1,1,1,1,1,1,1,1,1];
+		//smoothing = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+		smoothing = [1,1,1,1,1,1,1,1,1];
 		convolute(smoothing);
 	});
 	$('#edge_detection_filter').on('click',function(e){
