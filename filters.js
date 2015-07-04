@@ -70,7 +70,7 @@ $(function() {
 
 	}
 
-	function realPosition(row, column, width){
+	function realPosition(row, column){
 		return 4*((width*row)+column);
 	}
 
@@ -103,17 +103,26 @@ $(function() {
 
 		 	var half = Math.floor(dimension/2);
 
-		 	for(var i = 0; i < imageHeight; i++){
-		 		for(var j = 0; j < imageWidth; j++){
+		 	var h=0, w=0;
+		 	if(imageHeight > height){
+		 		h = height;
+		 	} else h = imageHeight;
+
+		 	if(imageWidth > width){
+		 		w = width;
+		 	} else w = imageWidth;
+
+		 	for(var i = 0; i < h; i++){
+		 		for(var j = 0; j < w; j++){
 		 			var r=0, g=0, b=0, a=0;
 		 			var offset=0;
-		 			var pos = realPosition(i, j, width);
+		 			var pos = realPosition(i, j);
 		 			var neightboor = 0;
 		 			var border = false;
 		 			for(var k = i-half; k <= i+half; k++){
 		 				for(var l = j-half; l <= j+half; l++){
-		 					if(k >= 0 && l >= 0 && k < imageHeight && l < imageWidth){
-		 						neightboor = realPosition(k,l,width);
+		 					if(k >= 0 && l >= 0 && k < h && l < w){
+		 						neightboor = realPosition(k,l);
 		 						r  += initialImageData.data[neightboor]*weights[offset];
 								g  += initialImageData.data[neightboor+1]*weights[offset];
 								b  += initialImageData.data[neightboor+2]*weights[offset];
@@ -158,7 +167,7 @@ $(function() {
 		convolute(smoothing);
 	});
 
-	$('#edge_detection_filter').on('click',function(e){
+	$('#sharpen_filter').on('click',function(e){
 		smoothing = [-1,-1,-1,-1,9,-1,-1,-1,-1];
 		convolute(smoothing);
 	});
