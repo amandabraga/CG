@@ -14,7 +14,7 @@ $(function() {
 
 		var reader = new FileReader();
 		reader.onload = fileOnload;
-		reader.readAsDataURL(file);    
+		reader.readAsDataURL(file);
 	});
 
 	function fileOnload(e) {
@@ -27,6 +27,9 @@ $(function() {
 			context.drawImage(this, 0, 0);
 			imageWidth = this.width;
 			imageHeight = this.height;
+			var finalCanvas = $('#finalCanvas')[0];
+			var finalContext = finalCanvas.getContext('2d');
+			finalContext.clearRect(0,0,width,height);
 		});
 	}
 
@@ -66,7 +69,7 @@ $(function() {
 		  data[i]     =  data[i + 1] = data[i + 2] = grayScaleColor; 
 		}
 		
-	    result_canvas.putImageData(imageData, 0, 0); 
+	    result_canvas.putImageData(imageData, 0, 0);
 
 	}
 
