@@ -106,7 +106,7 @@ $(function() {
 
 		 	var half = Math.floor(dimension/2);
 
-		 	var h=0, w=0;
+		 	var h=0, w=0, currentWeight=0;
 		 	if(imageHeight > height){
 		 		h = height;
 		 	} else h = imageHeight;
@@ -119,9 +119,9 @@ $(function() {
 		 		for(var j = 0; j < w; j++){
 		 			var r=0, g=0, b=0, a=0;
 		 			var offset=0;
+		 			currentWeight = normalizer;
 		 			var pos = realPosition(i, j);
 		 			var neightboor = 0;
-		 			var border = false;
 		 			for(var k = i-half; k <= i+half; k++){
 		 				for(var l = j-half; l <= j+half; l++){
 		 					if(k >= 0 && l >= 0 && k < h && l < w){
@@ -130,26 +130,16 @@ $(function() {
 								g  += initialImageData.data[neightboor+1]*weights[offset];
 								b  += initialImageData.data[neightboor+2]*weights[offset];
 								a  += initialImageData.data[neightboor+3]*weights[offset];
-								offset++;
 		 					}else {
-								border = true;
-								break;
+								currentWeight -= weights[offset];
 							}
-							if(border) break;
+							offset++;
 		 				}
 		 			}
-		 			if(border){
-		 				r = initialImageData.data[pos];
-						g = initialImageData.data[pos+1];
-						b = initialImageData.data[pos+2];
-						a = initialImageData.data[pos+3];
-		 			}
-		 			else{
-		 				finalImageData.data[pos] = checkLimits(Math.floor(r/normalizer));
-						finalImageData.data[pos+1] = checkLimits(Math.floor(g/normalizer));
-				  		finalImageData.data[pos+2] = checkLimits(Math.floor(b/normalizer));
-				  		finalImageData.data[pos+3] = 255;
-		 			}
+		 			finalImageData.data[pos] = checkLimits(Math.floor(r/currentWeight));
+					finalImageData.data[pos+1] = checkLimits(Math.floor(g/currentWeight));
+				  	finalImageData.data[pos+2] = checkLimits(Math.floor(b/currentWeight));
+				  	finalImageData.data[pos+3] = 255;
 		 			
 		 		}
 		 	}
