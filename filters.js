@@ -176,4 +176,52 @@ $(function() {
 		blackAndWhite();
 	});
 
+	$('#custom').on('change',function(e){
+		
+		var value = $('#custom').val();
+		if (value == 0)
+			return;
+
+		var table = document.getElementById("tab");
+		$('#tab').empty();
+		$('#tab').attr('size', value)
+		var n =0;
+		for (var i = 0; i < value; i++){
+			var row = table.insertRow(i);
+			for (var j = 0; j < value; j++){
+				 $("<input>")
+		        .attr('type', 'text')
+		        .attr('id', n++)
+		        .attr('size','3')
+		        .appendTo($(row))
+		        .focus();
+
+		        if (i == value-1 && j == value -1){
+		        	 var r= $('<p><button id="custom_button">me aperta forte</button></p>')	
+        			.appendTo($(table))
+		        }
+			}
+		}
+
+	});
+
+	$(document).on('click','#custom_button',function(e){
+
+		var size = $('#tab').attr('size');
+		
+		array = [];
+
+		for (var i = 0; i < size*size; i++){
+			var id = "#".concat(i.toString());
+
+			var element = $(id).val();
+
+			if (!element.trim())	element = 1;
+			array[i] = 	parseInt(element);
+
+		}
+		convolute(array);
+	
+	});
+
 });
