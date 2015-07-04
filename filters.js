@@ -46,6 +46,26 @@ $(function() {
 
 	}
 
+
+	function blackAndWhite() {
+
+		var initial_canvas = $('#originalCanvas')[0].getContext('2d');
+		var result_canvas = $('#finalCanvas')[0].getContext('2d');
+			
+	    result_canvas.drawImage($('#originalCanvas')[0],0,0,width, height);
+
+		var imageData = result_canvas.getImageData(0,0,width, height);
+		var data = imageData.data;
+
+		for (var i = 0; i < data.length; i += 4) {
+		  grayScaleColor = 0.25 * data[i] + 0.7 * data[i + 1] +0.05 * data[i + 2];
+		  data[i]     =  data[i + 1] = data[i + 2] = grayScaleColor; 
+		}
+		
+	    result_canvas.putImageData(imageData, 0, 0); 
+
+	}
+
 	function convolute(weights){
 
 		var initial_canvas = $('#originalCanvas')[0].getContext('2d');
@@ -104,10 +124,81 @@ $(function() {
 	}
 
 
+
+	function convolute2(weights){
+
+		var initial_canvas = $('#originalCanvas')[0].getContext('2d');
+		var result_canvas = $('#finalCanvas')[0].getContext('2d');
+		
+		var width = $('#originalCanvas')[0].width;
+		var height = $('#originalCanvas')[0].height;
+
+		result_canvas.drawImage($('#originalCanvas')[0],0,0,width, height);
+			
+		var initialImageData = initial_canvas.getImageData(0,0,width,height);
+		var finalImageData = result_canvas.getImageData(0,0,width,height);
+
+		var normalizer = 0;
+		for(var i=0; i<weights.length; i++) 
+				normalizer += weights[i];	
+		
+	 	var w = width;
+	 	var dimension = Math.sqrt(weights.length);
+
+	 	var half = Math.floor(dimension/2);
+
+	 	var n = 4*half;
+	 	
+		for (var i = 0; i < initialImageData.data.length; i += 4){
+			var r=0, g=0, b=0, a=0;
+
+			for (var d= 2*(dimension-1); d >= -(dimension-1)*2; d -= 4){
+						
+					if (( i > w*Math.pow(2, half+1) && i < initialImageData.data.length-w*2*(dimension-1))  &&
+						!((i%(w*4) <=n) || (i%(w*4) >= w*4-n)) )
+					{
+						var offset = 0;
+						for (var k = -(dimension-1)/2; k <= (dimension-1)/2; k++){
+
+							r  += initialImageData.data[i+ k*w*4 +d] * weights[offset];
+							g  += initialImageData.data[i+ k*w*4 +d+1]* weights[offset];
+							b  += initialImageData.data[i+ k*w*4 +d+2]* weights[offset];
+							a  += initialImageData.data[i+ k*w*4 +d+3]* weights[offset++];
+						}
+
+					}else{
+						r = initialImageData.data[i];
+						g = initialImageData.data[i+1];
+						b = initialImageData.data[i+2];
+						a = initialImageData.data[i+3];
+						break;
+					}
+
+			}
+
+			normalizerRay = normalizer;
+
+			if (i <= w*Math.pow(2, half+1) || i >= initialImageData.data.length-width*2*(dimension-1) 
+				|| (i%(w*4) <=n)  || (i%(w*4) >= w*4-n))
+				normalizerRay = 1;
+			finalImageData.data[i] = Math.floor(r/normalizerRay);
+			finalImageData.data[i+1] = Math.floor(g/normalizerRay);
+		  	finalImageData.data[i+2] = Math.floor(b/normalizerRay);
+		  	finalImageData.data[i+3] = Math.floor(a/normalizerRay);
+		}
+
+		
+	    result_canvas.putImageData(finalImageData, 0, 0);
+
+}
+
+
+	
+
 	$('#blur_filter').on('click',function(e){
 		smoothing = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 		//smoothing = [1,1,1,1,1,1,1,1,1];
-		convolute(smoothing);
+		convolute2(smoothing);
 	});
 	$('#edge_detection_filter').on('click',function(e){
 		smoothing = [-1,-1,-1,-1,9,-1,-1,-1,-1];
@@ -118,4 +209,10 @@ $(function() {
 	$('#invert_colors_filter').on('click',function(e){
 		invertColors();
 	});
+
+	$('#black_and_white_filter').on('click',function(e){
+		blackAndWhite();
+	});
+
+
 });
