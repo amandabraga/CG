@@ -199,15 +199,16 @@ $(function() {
 		var radius = $("#blur_box_radius").val();
 		var sigma = $("#box_sigma").val();
 		console.log(radius);
-		if(radius == ""){
+		if(!radius.trim() || isNaN(radius)){
 			radius = 5;
 		}
 		else if(radius%2 == 0){
 			radius++;
 		}
-		if(sigma == ""){
+		if(!sigma.trim() || isNaN(sigma) ){
 			sigma = 1;
 		}
+
 		var half = radius/2;
 		var smoothing = [];
 		for(var x = 0; x < radius; x++){
