@@ -41,6 +41,10 @@ $(function() {
 	   
 	});
 
+	partialConvolute(){
+		
+	}
+
 	function crop(img, selection) {
 		$('#finalCanvas')[0].getContext('2d').clearRect(0,0,width,height);
 	
@@ -196,12 +200,14 @@ $(function() {
 	$('#custom').on('change',function(e){
 		
 		var value = $('#custom').val();
+		
+		$('#tab').empty();
+		$('#tab').attr('size', value)
 		if (value == 0)
 			return;
 
 		var table = document.getElementById("tab");
-		$('#tab').empty();
-		$('#tab').attr('size', value)
+
 		var n =0;
 		for (var i = 0; i < value; i++){
 			var row = table.insertRow(i);
@@ -214,8 +220,9 @@ $(function() {
 		        .focus();
 
 		        if (i == value-1 && j == value -1){
-		        	 var r= $('<p><button id="custom_button">Aplicar Filtro</button></p>')	
+		        	 var r= $('<p><button id="custom_button">Aplicar Filtro</button>')	
         			.appendTo($(table))
+
 		        }
 			}
 		}
@@ -224,6 +231,7 @@ $(function() {
 
 	$(document).on('click','#custom_button',function(e){
 
+		document.getElementById("message").innerHTML = "";
 		var size = $('#tab').attr('size');
 		
 		array = [];
@@ -233,9 +241,8 @@ $(function() {
 
 			var element = $(id).val();
 
-			if (!element.trim())	element = 1;
+			if (!element.trim() || isNaN(element))	element = 1;
 			array[i] = 	parseInt(element);
-
 		}
 		convolute(array);
 	
