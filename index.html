@@ -2,35 +2,60 @@
 <html>
 <head>
 	<title>Bom dia</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/import.css">
 	<script src="jquery-2.1.4.min.js"></script>
 
 </head>
 
 <body>
 
-	<h1> Bem Vindo ao site mais bonito do Planeta </h1>
-	<p><input id="image" type="file"/></p>
+	<header id="cabecalho">
+		Bem vindo ao Instamanda ~ <i>o site mais bonito do planeta</i>
 
-	<p>Radius: <input id="blur_box_radius" type="number"/><button id="blur_filter">Blur</button>
-	<button id="invert_colors_filter">Inverte</button>
-	<button id="sharpen_filter">Sharpen</button>
-	<button id="unsharpen_filter">Unsharpen</button>
-	<button id="black_and_white_filter">B & W</button>
-	<button id="laplacian_filter">Laplaciano</button>
-	Custom Matrix:
-	<select id ="custom">
-	  <option value="0" selected>Choose Dimension</option>
-	  <option value="3">3x3</option>
-	  <option value="5">5x5</option>
-	  <option value="7">7x7</option>
-	  <option value="9">9x9</option>
-	</select></p>
-	<table id="tab"></table>
-	</p>
+		<div id="inputs" class="clear">
+			<p><input id="image" type="file"/></p>
+			<p>Blur radius: <input id="blur_box_radius" type="number"/></p>
+			Custom Matrix:
+			<select id ="custom"> 
+			  <option value="0" selected>Choose Dimension</option>
+			  <option value="3">3x3</option>
+			  <option value="5">5x5</option>
+			  <option value="7">7x7</option>
+			  <option value="9">9x9</option>
+			</select>
+		</div>
+		<nav id="navegacao" class="clear">
+			<p>Pre-made filters:</p>
+			<ul>
+				<li><button id="blur_filter" class="itemNav"> Blur </button></li>
+				<li><button id="invert_colors_filter" class="itemNav"> Reverse </button></li>
+				<li><button id="sharpen_filter" class="itemNav"> Sharpen </button></li>
+				<li><button id="unsharpen_filter" class="itemNav"> Unsharpen </button></li>
+				<li><button id="black_and_white_filter" class="itemNav"> B & W </button></li>
+				<li><button id="laplacian_filter" class="itemNav"> Laplaciano </button></li>
+			</ul>
+		</nav>
+
+		<div id="logo" class="clear"></div>
+
+	</header>
 	
-	<canvas id="originalCanvas" width="500" height="500"></canvas>
+	<div id="corpo">
+		
+		<canvas id="originalCanvas" width="500" height="500"></canvas>
 
-	<canvas id="finalCanvas" width="500" height="500"></canvas>
+		<canvas id="finalCanvas" width="500" height="500"></canvas>
+
+		<p>
+			<table id="tab"></table>
+		</p>
+
+	</div>
+
+	<footer>
+		Criado por blah.
+	</footer>
 
 	<script src="filters.js"></script>
 
