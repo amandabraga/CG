@@ -41,6 +41,17 @@ $(function() {
 	   
 	});
 
+	function instamanda() {
+	    var canvas = $('#originalCanvas')[0];
+	    var img = new window.Image();
+	    img.addEventListener("load", function () {
+	        canvas.getContext("2d").drawImage(img, 0, 0);
+	        imageWidth = img.clientWidth;
+	    	imageHeight = img.clientHeight;
+	    });
+	    img.setAttribute("src", "image/amanda.jpg");
+	}
+
 	function crop(img, selection) {
 		$('#finalCanvas')[0].getContext('2d').clearRect(0,0,width,height);
 	
@@ -236,6 +247,16 @@ $(function() {
 		convolute(smoothing);
 	});
 
+	$('#motion_blur_filter').on('click',function(e){
+		smoothing = [0,0,1,0,0,0,1,0,0];
+		convolute(smoothing);
+	});
+
+	$('#raise_filter').on('click',function(e){
+		smoothing = [0,0,-2,0,2,0,1,0,0];
+		convolute(smoothing);
+	});
+
 	$('#invert_colors_filter').on('click',function(e){
 		invertColors();
 	});
@@ -246,6 +267,10 @@ $(function() {
 
 	$('#sepia_filter').on('click',function(e){
 		sepia();
+	});
+
+	$('#logo').on('click',function(e){
+		instamanda();
 	});
 
 	$('#custom').on('change',function(e){
