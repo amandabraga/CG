@@ -41,9 +41,6 @@ $(function() {
 	   
 	});
 
-	partialConvolute(){
-		
-	}
 
 	function crop(img, selection) {
 		$('#finalCanvas')[0].getContext('2d').clearRect(0,0,width,height);
@@ -165,13 +162,32 @@ $(function() {
 	$('#blur_filter').on('click',function(e){
 		var radius = $("#blur_box_radius").val();
 		if(radius%2 == 0){
-			console.log("Radius par. Aumentando de uma unidade...");
 			radius++;
 		}
 		var smoothing = [];
 		for(var i = 0; i < radius*radius; i++)
 			smoothing.push(1);
 		convolute(smoothing);
+	});
+
+	$('#gaussian_blur_filter').on('click',function(e){
+		var radius = $("#blur_box_radius").val();
+		if(radius%2 == 0){
+			radius++;
+		}
+		var half = radius/2;
+		var sigma = $("#box_sigma").val();
+		var smoothing = [];
+	
+		for(var x = 0; x < radius; x++){
+			for(var y = 0; y < radius; y++){
+				smoothing.push(Math.exp(-0.5*(Math.pow((x-half)/sigma, 2.0)+Math.pow((y-half)/sigma,2.0)))/(2*Math.PI*sigma*sigma));
+			}
+		}
+
+		console.log(smoothing);
+		convolute(smoothing);
+
 	});
 
 	$('#sharpen_filter').on('click',function(e){

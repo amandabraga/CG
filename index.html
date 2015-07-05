@@ -4,7 +4,6 @@
 	<title>Bom dia</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/import.css">
-	<script src="jquery-2.1.4.min.js"></script>
 	<script src="libraries/jquery-2.1.4.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="libraries/jquery.imgareaselect-0.9.10/css/imgareaselect-default.css" />
 	<script type="text/javascript" src="libraries/jquery.imgareaselect-0.9.10/scripts/jquery.imgareaselect.pack.js"></script>
@@ -17,7 +16,8 @@
 
 		<div id="inputs" class="clear">
 			<p><input id="image" type="file"/></p>
-			<p>Blur radius: <input id="blur_box_radius" type="number"/></p>
+			<p>Blur radius: <input id="blur_box_radius" type="number"/>
+			Sigma: <input id="box_sigma" type="number"/></p>
 			Custom Matrix:
 			<select id ="custom"> 
 			  <option value="0" selected>Choose Dimension</option>
@@ -30,7 +30,8 @@
 		<nav id="navegacao" class="clear">
 			<p>Pre-made filters:</p>
 			<ul>
-				<li><button id="blur_filter" class="itemNav"> Blur </button></li>
+				<li><button id="blur_filter" class="itemNav"> Box Blur </button></li>
+				<li><button id="gaussian_blur_filter" class="itemNav"> Gaussian Blur </button></li>
 				<li><button id="invert_colors_filter" class="itemNav"> Reverse </button></li>
 				<li><button id="sharpen_filter" class="itemNav"> Sharpen </button></li>
 				<li><button id="unsharpen_filter" class="itemNav"> Unsharpen </button></li>
