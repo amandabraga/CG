@@ -96,6 +96,29 @@ $(function() {
 
 	}
 
+	function sepia(){
+
+		var initial_canvas = $('#originalCanvas')[0].getContext('2d');
+		var result_canvas = $('#finalCanvas')[0].getContext('2d');
+			
+	    result_canvas.drawImage($('#originalCanvas')[0],0,0,width, height);
+
+		var imageData = result_canvas.getImageData(0,0,width, height);
+		var data = imageData.data;
+
+		for (var i = 0; i < data.length; i += 4) {
+			var r = data[i];
+			var g = data[i+1];
+			var b = data[i+2];
+			data[i] = r*.393 + g*.769 + b*.189;
+			data[i+1] = r*.349 + g*.686 + b*.168;
+			data[i+2] = r*.272 + g*.534 + b*.131;
+		}
+		
+	    result_canvas.putImageData(imageData, 0, 0);
+
+	}
+
 	function realPosition(row, column){
 		return 4*((width*row)+column);
 	}
@@ -160,7 +183,10 @@ $(function() {
 	
 	$('#blur_filter').on('click',function(e){
 		var radius = $("#blur_box_radius").val();
-		if(radius%2 == 0){
+		if(radius == ""){
+			radius = 5;
+		}
+		else if(radius%2 == 0){
 			radius++;
 		}
 		var smoothing = [];
@@ -171,20 +197,25 @@ $(function() {
 
 	$('#gaussian_blur_filter').on('click',function(e){
 		var radius = $("#blur_box_radius").val();
-		if(radius%2 == 0){
+		var sigma = $("#box_sigma").val();
+		console.log(radius);
+		if(radius == ""){
+			radius = 5;
+		}
+		else if(radius%2 == 0){
 			radius++;
 		}
+		if(sigma == ""){
+			sigma = 1;
+		}
 		var half = radius/2;
-		var sigma = $("#box_sigma").val();
 		var smoothing = [];
-	
 		for(var x = 0; x < radius; x++){
 			for(var y = 0; y < radius; y++){
 				smoothing.push(Math.exp(-0.5*(Math.pow((x-half)/sigma, 2.0)+Math.pow((y-half)/sigma,2.0)))/(2*Math.PI*sigma*sigma));
 			}
 		}
 
-		console.log(smoothing);
 		convolute(smoothing);
 
 	});
@@ -210,6 +241,10 @@ $(function() {
 
 	$('#black_and_white_filter').on('click',function(e){
 		blackAndWhite();
+	});
+
+	$('#sepia_filter').on('click',function(e){
+		sepia();
 	});
 
 	$('#custom').on('change',function(e){
