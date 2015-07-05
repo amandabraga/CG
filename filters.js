@@ -33,6 +33,29 @@ $(function() {
 		});
 	}
 
+	$(document).ready(function () {
+		
+	    $('#originalCanvas').imgAreaSelect({handles: true, aspectRatio: '1:1', 
+	    	onSelectEnd: crop
+	    });
+	   
+	});
+
+	function crop(img, selection) {
+		$('#finalCanvas')[0].getContext('2d').clearRect(0,0,width,height);
+	
+		x1 = selection.x1; x2 = selection.x2;
+		y1 = selection.y1; y2 = selection.y2;
+
+		if (x2-x1 == 0 || y1 - y2 == 0)
+			return;
+		
+		var initial_canvas = $('#originalCanvas')[0].getContext('2d');
+		var result_canvas = $('#finalCanvas')[0].getContext('2d');
+
+		result_canvas.drawImage($('#originalCanvas')[0],x1,y1, x2-x1, y2-y1,0,0,x2-x1, y2-y1);
+	}
+
 
 	function invertColors() {
 
@@ -191,7 +214,7 @@ $(function() {
 		        .focus();
 
 		        if (i == value-1 && j == value -1){
-		        	 var r= $('<p><button id="custom_button">me aperta forte</button></p>')	
+		        	 var r= $('<p><button id="custom_button">Aplicar Filtro</button></p>')	
         			.appendTo($(table))
 		        }
 			}
