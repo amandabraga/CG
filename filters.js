@@ -25,7 +25,7 @@ $(function() {
 
 		$img.load(function() {
 			context.drawImage(this, 0, 0);
-			imageWidth = this.width;
+			imageWidth 	= this.width;
 			imageHeight = this.height;
 			var finalCanvas = $('#finalCanvas')[0];
 			var finalContext = finalCanvas.getContext('2d');
@@ -40,10 +40,6 @@ $(function() {
 	    });
 	   
 	});
-
-	partialConvolute(){
-		
-	}
 
 	function crop(img, selection) {
 		$('#finalCanvas')[0].getContext('2d').clearRect(0,0,width,height);
@@ -231,7 +227,6 @@ $(function() {
 
 	$(document).on('click','#custom_button',function(e){
 
-		document.getElementById("message").innerHTML = "";
 		var size = $('#tab').attr('size');
 		
 		array = [];
@@ -244,6 +239,7 @@ $(function() {
 			if (!element.trim() || isNaN(element))	element = 1;
 			array[i] = 	parseInt(element);
 		}
+		
 		convolute(array);
 	
 	});
