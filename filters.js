@@ -77,22 +77,10 @@ $(function() {
 		return 4*((width*row)+column);
 	}
 
-	function checkLimits(number){
-		if(number > 255){
-			return 255;
-		}
-		else if(number < 0){
-			return 0;
-		}
-		else return number;
-	}
-
 	function convolute(weights){
 
 			var initial_canvas = $('#originalCanvas')[0].getContext('2d');
 			var result_canvas = $('#finalCanvas')[0].getContext('2d');
-
-			result_canvas.drawImage($('#originalCanvas')[0],0,0,width, height);
 				
 			var initialImageData = initial_canvas.getImageData(0,0,width,height);
 			var finalImageData = result_canvas.getImageData(0,0,width,height);
@@ -117,7 +105,7 @@ $(function() {
 
 		 	for(var i = 0; i < h; i++){
 		 		for(var j = 0; j < w; j++){
-		 			var r=0, g=0, b=0, a=0;
+		 			var r=0, g=0, b=0;
 		 			var offset=0;
 		 			currentWeight = normalizer;
 		 			var pos = realPosition(i, j);
@@ -129,16 +117,15 @@ $(function() {
 		 						r  += initialImageData.data[neightboor]*weights[offset];
 								g  += initialImageData.data[neightboor+1]*weights[offset];
 								b  += initialImageData.data[neightboor+2]*weights[offset];
-								a  += initialImageData.data[neightboor+3]*weights[offset];
 		 					}else {
 								currentWeight -= weights[offset];
 							}
 							offset++;
 		 				}
 		 			}
-		 			finalImageData.data[pos] = checkLimits(Math.floor(r/currentWeight));
-					finalImageData.data[pos+1] = checkLimits(Math.floor(g/currentWeight));
-				  	finalImageData.data[pos+2] = checkLimits(Math.floor(b/currentWeight));
+		 			finalImageData.data[pos] = (r)/(currentWeight);
+					finalImageData.data[pos+1] = (g)/(currentWeight);
+				  	finalImageData.data[pos+2] = (b)/(currentWeight);
 				  	finalImageData.data[pos+3] = 255;
 		 			
 		 		}
@@ -167,6 +154,11 @@ $(function() {
 
 	$('#laplacian_filter').on('click',function(e){
 		smoothing = [-1,-1,-1,-1,8,-1,-1,-1,-1];
+		convolute(smoothing);
+	});
+
+	$('#unsharpen_filter').on('click',function(e){
+		smoothing = [1,4,6,4,1,4,16,24,16,4,6,24,-476,24,6,4,16,24,16,4,1,4,6,4,1];
 		convolute(smoothing);
 	});
 
