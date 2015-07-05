@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Bom dia</title>
+	<title>Instamanda</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/import.css">
 	<script src="libraries/jquery-2.1.4.min.js"></script>
@@ -12,12 +12,14 @@
 <body>
 
 	<header id="cabecalho">
-		Bem vindo ao Instamanda ~ <i>o site mais bonito do planeta</i>
+		<h1 class="clear">Bem vindo ao Instamanda</h1> <div id="logo" class="clear"></div>
+		<h3 class="clear">~o site mais bonito do planeta</h3>
 
 		<div id="inputs" class="clear">
 			<p><input id="image" type="file"/></p>
-			<p>Blur radius: <input id="blur_box_radius" type="number"/>
-			Sigma: <input id="box_sigma" type="number"/></p>
+			<p>Blur radius: <input id="blur_box_radius" type="number" class="input_box"/>
+			Sigma: <input id="box_sigma" type="number" class="input_box"/>
+			<br><br>
 			Custom Matrix:
 			<select id ="custom"> 
 			  <option value="0" selected>Choose Dimension</option>
@@ -28,23 +30,19 @@
 			</select>
 		</div>
 		<nav id="navegacao" class="clear">
-			<p>Pre-made filters:</p>
 			<ul>
-				<li><button id="blur_filter" class="itemNav"> Box Blur </button></li>
-				<li><button id="gaussian_blur_filter" class="itemNav"> Gaussian Blur </button></li>
+				<li><button id="blur_filter" class="itemNav"> Box </button></li>
+				<li><button id="gaussian_blur_filter" class="itemNav"> Gaussian </button></li>
 				<li><button id="invert_colors_filter" class="itemNav"> Reverse </button></li>
 				<li><button id="sharpen_filter" class="itemNav"> Sharpen </button></li>
 				<li><button id="unsharpen_filter" class="itemNav"> Unsharpen </button></li>
 				<li><button id="black_and_white_filter" class="itemNav"> B & W </button></li>
-				<br><br>
 				<li><button id="laplacian_filter" class="itemNav"> Laplacian </button></li>
 				<li><button id="sepia_filter" class="itemNav"> Sepia </button></li>
-				<li><button id="motion_blur_filter" class="itemNav"> Motion Blur </button></li>
+				<li><button id="motion_blur_filter" class="itemNav"> Motion </button></li>
 				<li><button id="raise_filter" class="itemNav"> Raise </button></li>
 			</ul>
 		</nav>
-
-		<div id="logo" class="clear"></div>
 
 	</header>
 	
@@ -61,7 +59,8 @@
 	</div>
 
 	<footer>
-		Criado por blah.
+		Feito pelas alunas Amanda Braga e Jullyana Vycas.<br>
+		Agradecimentos especias às nossas famílias, à Charlotte e aos nossos queridos amigos Aluizio e Gabriel.
 	</footer>
 
 	<script src="filters.js"></script>

@@ -2,53 +2,63 @@ body{
     padding: 0;
     margin: 0 auto;
     width: 1024px;
-
-    /*background-image: url(../image/fundo.png);*/
-    font-family: 'Arial', sans-serif;
+    font-family: 'Bitter', serif;
     font-size: 17px;
+    color: #5e0344;
 
-    border-left-color: #0f79b9;
+    border-left-color: #c15ca4;
     border-left-width: 8px;
     border-left-style: solid;
-    border-right-color: #0f79b9;
+    border-right-color: #c15ca4;
     border-right-width: 8px;
     border-right-style: solid;
+    background-image: url(../image/fundo_cabecalho.png);
 }
 header{
-    padding: 20px;
+    padding: 5px;
 }
 footer{
     padding: 20px;
     height: 80px;
-    background-color: #89b2fc;
-
-    border-top-color: #0f79b9;
+    /*background-color: #89b2fc;*/
+    background-image: url(../image/fundo_rodape.png);
+    border-top-color: #c15ca4;
     border-top-width: 3px;
     border-top-style: solid;
-
-    font-size: 14px;
-    color: white;
+    font-family: 'Bitter', serif;
+    font-size: 17px;
+    color: #5e0344;
+    text-align: center;
+}
+h1{
+    font-family: 'Lobster', cursive;
+    color: #a3267f;
+    padding-left: 10px;
+    float: left;
+    margin-bottom: 0px;
+}
+h3{
+    font-style: italic;
+    font-family: 'Bitter', serif;
+    color: #a3267f;
+    padding-left: 10px;
+    float: left;
+    margin: 0px;
 }
 nav{
     padding: 0px;
     height: 400px;
     width: 180px;
     margin-right: 30px;
-    background-color: white;
     float: left;
 }
 a{
     text-decoration: none;
 }
 nav a{
-    color: white;
     background-color: #0071b8;
     padding-left: 30px;
     padding-right: 30px;
-}
-nav a:hover{
-    color: aliceblue;
-    background-color: #6abeea;
 }
 nav li{
     padding-left: 5px;
@@ -60,35 +70,38 @@ nav ul{
     padding: 0;
 }
 #cabecalho{
-    background-color: blue;
-    /*background-image: url(imagens/fundo_cabecalho.png);*/
-    width: 985px;
+    width: 1010px;
     height: 300px;
+    margin-top: 0px;
+    padding-left: 10px;
+    border-bottom-color: #c15ca4;
+    border-bottom-width: 8px;
+    border-bottom-style: solid;
+    background-color: #daa9d6;
 }
 #navegacao{
-    width: 700px;
-    height: 150px;
+    text-align: center;
+    width: 800px;
+    height: 60px;
     margin-top: 5px;
-    margin-left: 10px;
-    padding-top: 0px;
+    padding-top: 5px;
     padding-left: 10px;
     position: relative;
     float: left;
-    background-color: red;
+    top: 13px;
 }
 #corpo{
-    background-color: white;
     min-height: 600px;
     padding-left: 9px;
     padding-top: 10px;
 }
 #logo{
     width: 200px;
-    height: 200px;
-    background-image: url(../image/instamanda.jpg);
+    height: 297px;
+    background-image: url(../image/instamanda.png);
     margin-top: 0px;
     padding-top: 0px;
-    margin-left: 775px;
+    margin-left: 800px;
     position: absolute;
     float: right;
 }
@@ -105,22 +118,22 @@ nav ul{
     margin-top: 5px;
     margin-left: 10px;
     padding-left: 10px;
-    padding-bottom: 20px;
     padding-top: 5px;
     position: relative;
     float: left;
-    background-color: yellow;
 }
 .itemNav{
-    font-size: 18px;
+    font-size: 15px;
     color: white;
+    border: 0px;
     text-align: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    background-color: #0071b8;
+    padding: 5px;
+    background-color: #9E1C98;
+    font-family: 'Bitter', serif;
 }
 .clear{
     clear: both;
+}
+.input_box{
+    width: 40px;
 }
